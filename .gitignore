@@ -1,0 +1,4 @@
+/build/
+/config.json
+/pcconfig.json
+node_modules

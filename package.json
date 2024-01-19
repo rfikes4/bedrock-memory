@@ -1,0 +1,29 @@
+{
+  "name": "bedrock-memory",
+  "version": "1.0.0",
+  "scripts": {
+    "clean": "shx rm -rf build",
+    "build": "run-s build:prod:offline scripts:push",
+    "build:dev": "pnpm run build:dev:offline && pnpm run scripts:push && run-p build:dev:offline:watch scripts:sync",
+    "build:dev:push": "pnpm run build:dev:offline && pnpm run scripts:push",
+    "build:dev:offline": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+    "build:dev:offline:watch": "cross-env NODE_ENV=development webpack --config webpack.config.js --watch",
+    "build:prod:offline": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "scripts:push": "pcsync pushAll --yes",
+    "scripts:sync": "pcwatch --force"
+  },
+  "dependencies": {
+    "bitecs": "0.3.40",
+    "playcanvas": "1.67.3"
+  },
+  "devDependencies": {
+    "playcanvas-sync": "github:playcanvas/playcanvas-sync",
+    "cross-env": "7.0.3",
+    "ts-loader": "9.3.1",
+    "ts-shader-loader": "1.0.6",
+    "tsconfig-paths": "4.1.0",
+    "tsconfig-paths-webpack-plugin": "3.5.2",
+    "typescript": "4.7.4",
+    "webpack": "5.74.0"
+  }
+}

@@ -1,0 +1,31 @@
+# This is not a root file and will need to be removed in the future.
+# Removal will cause all the rules from the root file to be applied in this SCREAM folder
+root: true
+
+parser: '@typescript-eslint/parser'
+
+parserOptions:
+  sourceType: module
+  project: ./tsconfig.json
+
+extends:
+  - 'eslint:recommended'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'prettier'
+
+plugins:
+  - '@typescript-eslint'
+
+rules:
+  import/no-extraneous-dependencies: off
+  '@typescript-eslint/no-explicit-any': off
+  '@typescript-eslint/no-use-before-define': off
+  '@typescript-eslint/no-inferrable-types': off
+  '@typescript-eslint/explicit-module-boundary-types': off
+
+overrides:
+  - files: ['**/*.{ts,tsx}']
+    extends:
+      - 'plugin:@typescript-eslint/recommended'
+      - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
