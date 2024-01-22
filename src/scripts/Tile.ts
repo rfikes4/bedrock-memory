@@ -3,11 +3,6 @@ import { ScriptTypeBase } from "../types/ScriptTypeBase";
 import { attrib, playCanvasScript } from "../decorators/playCanvasScript";
 import * as pcTween from "./PlayCanvasTween";
 
-// export enum tileFaces {
-//   RecentTrades = 'recent_trades',
-//   Trade = 'trade',
-// }
-
 @playCanvasScript("Tile")
 export class Tile extends ScriptTypeBase {
   @attrib({

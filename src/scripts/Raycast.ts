@@ -6,7 +6,7 @@ import { TileManager } from "./TileManager";
 @playCanvasScript("Raycast")
 export class Raycast extends ScriptTypeBase {
   private hoveredElement: pc.ElementComponent;
-  // private overUIElement: boolean;
+  private overUIElement: boolean;
 
   initialize(): void {
     // TODO: Adjust camera zoom
@@ -56,7 +56,10 @@ export class Raycast extends ScriptTypeBase {
     this.hoveredElement = <pc.ElementComponent>(
       this.app.elementInput._hoveredElement
     );
-    // this.overUIElement = !!this.hoveredElement;
+    this.overUIElement = !!this.hoveredElement;
+    if (this.overUIElement) {
+      return;
+    }
     const result = this.raycast(e);
     if (result) {
       if (
@@ -73,6 +76,10 @@ export class Raycast extends ScriptTypeBase {
   }
 
   onMouseDown(e: pc.MouseEvent): void {
+    this.overUIElement = !!this.hoveredElement;
+    if (this.overUIElement) {
+      return;
+    }
     const result = this.raycast(e);
     if (result) {
       if (

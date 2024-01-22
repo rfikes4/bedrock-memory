@@ -2,6 +2,7 @@ import * as pc from "playcanvas";
 import { ScriptTypeBase } from "../types/ScriptTypeBase";
 import { attrib, playCanvasScript } from "../decorators/playCanvasScript";
 import { Tile } from "./Tile";
+import { GameManager } from "./GameManager";
 
 @playCanvasScript("Tiles")
 export class Tiles extends ScriptTypeBase {
@@ -25,14 +26,27 @@ export class Tiles extends ScriptTypeBase {
     TileManager.instance.initialize(
       ScriptTypeBase.GetScriptFromEntity<Tiles>(this.entity, Tiles.scriptName)
     );
-    // Create tiles
+  }
 
+  setLevel(level: number): void {
+    // TODO: if mobile, update tilesPerRow, size, and gap
+    if (level === 1) {
+      this.pairs = 4;
+      this.tilesPerRow = 4;
+    } else if (level === 2) {
+      this.pairs = 8;
+      this.tilesPerRow = 4;
+    } else if (level === 3) {
+      this.pairs = 10;
+      this.tilesPerRow = 5;
+    }
+  }
+
+  spawnTiles(level: number): void {
+    this.setLevel(level);
     this.createTiles();
     this.shuffleTiles();
     this.recenterTiles();
-
-    // Re-center tiles
-
     // TODO: Adjust camera zoom
   }
 
@@ -117,8 +131,7 @@ export class Tiles extends ScriptTypeBase {
       tile2Script.setPaired(this.flippedPair[0]);
       this.checkingPair = false;
       if (this.pairedTiles.length == this.pairs * 2) {
-        console.log("You won!");
-        // TODO: Show win screen
+        GameManager.instance.win();
       }
     } else {
       console.log("Pair not found!");
@@ -129,6 +142,24 @@ export class Tiles extends ScriptTypeBase {
         this.checkingPair = false;
       }, this.resetFlipTimeout);
     }
+  }
+
+  exit(): void {
+    // TODO: polish = animate tiles flying away
+    //   private tiles: pc.Entity[] = [];
+    // public flippedPair: pc.Entity[] = [];
+    // private pairedTiles: pc.Entity[] = [];
+    // reset flips, unpair tiles, destroy tiles
+    for (let i = 0; i < this.tiles.length; i++) {
+      // const tileScript = this.getScript<Tile>(this.tiles[i], Tile.scriptName);
+      // tileScript.resetFlip();
+      // tileScript.unpair();
+      this.tiles[i].destroy();
+    }
+    this.checkingPair = false;
+    this.flippedPair = [];
+    this.pairedTiles = [];
+    this.tiles = [];
   }
 
   // TODO: upair/resetFlip tiles on new game
@@ -146,8 +177,16 @@ export class TileManager {
     this.tilesScript = tilesScript;
   }
 
+  public spawnTiles(level: number): void {
+    this.tilesScript.spawnTiles(level);
+  }
+
   public flipTile(tile: pc.Entity): void {
     this.tilesScript.flipTile(tile);
+  }
+
+  public exit(): void {
+    this.tilesScript.exit();
   }
 
   public get canFlip(): boolean {
