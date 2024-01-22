@@ -48,7 +48,6 @@ export class Audio extends ScriptTypeBase {
 
   playSound(sound: string): void {
     this.entity.sound.play(sound);
-    console.log(`Playing sound: ${sound}`);
   }
 }
 

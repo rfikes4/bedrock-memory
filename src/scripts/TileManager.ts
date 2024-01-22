@@ -23,6 +23,7 @@ export class Tiles extends ScriptTypeBase {
   protected checkingPair = false; // use this to prevent flipping more than 2 tiles at a time
   private resetFlipTimeout = 250;
   public score = 0;
+  public isPortrait: boolean;
 
   initialize(): void {
     TileManager.instance.initialize(
@@ -30,17 +31,46 @@ export class Tiles extends ScriptTypeBase {
     );
   }
 
+  checkMobilePortrait(): boolean {
+    return window.matchMedia("(orientation: portrait)").matches;
+  }
+
   setLevel(level: number): void {
-    // TODO: if mobile, update tilesPerRow, size, and gap
+    const isPortrait = this.checkMobilePortrait();
     if (level === 1) {
       this.pairs = 4;
-      this.tilesPerRow = 4;
+      if (isPortrait) {
+        this.tilesPerRow = 2;
+        this.tileSize = 1;
+        this.gap = 0.2;
+      } else {
+        this.tilesPerRow = 4;
+        this.tileSize = 1;
+        this.gap = 0.2;
+      }
     } else if (level === 2) {
-      this.pairs = 8;
-      this.tilesPerRow = 4;
+      this.pairs = 6;
+      if (isPortrait) {
+        this.tilesPerRow = 3;
+        this.tileSize = 0.7;
+        this.gap = 0.2;
+      } else {
+        this.tilesPerRow = 4;
+        this.tileSize = 1;
+        this.gap = 0.2;
+      }
     } else if (level === 3) {
-      this.pairs = 10;
-      this.tilesPerRow = 5;
+      if (isPortrait) {
+        this.pairs = 12;
+        this.tilesPerRow = 4;
+        this.tileSize = 0.7;
+        this.gap = 0.1;
+      } else {
+        this.pairs = 10;
+        this.tilesPerRow = 5;
+        this.tileSize = 1;
+        this.gap = 0.2;
+      }
     }
   }
 
@@ -49,13 +79,13 @@ export class Tiles extends ScriptTypeBase {
     this.createTiles();
     this.shuffleTiles();
     this.recenterTiles();
-    // TODO: Adjust camera zoom
   }
 
   createTiles(): void {
     for (let i = 0; i < this.pairs * 2; i++) {
       const tile = (this.tile.resource as pc.Template).instantiate();
       tile.name = `Tile_${i}_Face_${Math.floor(i / 2) + 1}`;
+      tile.setLocalScale(this.tileSize, this.tileSize, this.tileSize);
       const tileScript = this.getScript<Tile>(tile, Tile.scriptName);
       // For every 2 tiles set the same face
       tileScript.setFace(Math.floor(i / 2));
