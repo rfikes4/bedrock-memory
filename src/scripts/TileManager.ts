@@ -61,7 +61,7 @@ export class Tiles extends ScriptTypeBase {
       }
     } else if (level === 3) {
       if (isPortrait) {
-        this.pairs = 12;
+        this.pairs = 10;
         this.tilesPerRow = 4;
         this.tileSize = 0.7;
         this.gap = 0.1;
