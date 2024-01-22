@@ -12,7 +12,7 @@ export class Tiles extends ScriptTypeBase {
   })
   tile: pc.Asset;
 
-  private pairs = 4; // 10 max level, 2 min
+  public pairs = 4;
   private tilesPerRow = 4;
   private tileSize = 1;
   private gap = 0.2; // gap between tiles
@@ -20,7 +20,8 @@ export class Tiles extends ScriptTypeBase {
   public flippedPair: pc.Entity[] = [];
   private pairedTiles: pc.Entity[] = [];
   protected checkingPair = false; // use this to prevent flipping more than 2 tiles at a time
-  private resetFlipTimeout = 500;
+  private resetFlipTimeout = 250;
+  public score = 0;
 
   initialize(): void {
     TileManager.instance.initialize(
@@ -130,6 +131,9 @@ export class Tiles extends ScriptTypeBase {
       this.pairedTiles.push(this.flippedPair[1]);
       tile2Script.setPaired(this.flippedPair[0]);
       this.checkingPair = false;
+      this.score++;
+      GameManager.instance.setScore(this.score, this.pairs);
+
       if (this.pairedTiles.length == this.pairs * 2) {
         GameManager.instance.win();
       }
@@ -143,6 +147,10 @@ export class Tiles extends ScriptTypeBase {
       }, this.resetFlipTimeout);
     }
   }
+
+  // setScore(score: number): void {
+
+  // }
 
   exit(): void {
     // TODO: polish = animate tiles flying away
@@ -160,6 +168,7 @@ export class Tiles extends ScriptTypeBase {
     this.flippedPair = [];
     this.pairedTiles = [];
     this.tiles = [];
+    this.score = 0;
   }
 
   // TODO: upair/resetFlip tiles on new game
@@ -168,6 +177,7 @@ export class Tiles extends ScriptTypeBase {
 export class TileManager {
   static readonly instance = new TileManager();
   protected tilesScript: Tiles;
+  // protected pairs: number = 0;
 
   private constructor() {
     /**/
@@ -191,5 +201,13 @@ export class TileManager {
 
   public get canFlip(): boolean {
     return this.tilesScript.flippedPair.length < 2;
+  }
+
+  public get pairs(): number {
+    return this.tilesScript.pairs;
+  }
+
+  public get score(): number {
+    return this.tilesScript.score;
   }
 }

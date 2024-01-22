@@ -25,24 +25,25 @@ export class LevelSelectButton extends ScriptTypeBase {
   }
 
   onMouseEnter(e: pc.MouseEvent): void {
-    if (this.completed) return;
+    // if (this.completed) return;
     this.setCursor("pointer");
   }
 
   onMouseLeave(e: pc.MouseEvent): void {
-    if (this.completed) return;
+    // if (this.completed) return;
     this.setCursor("default");
   }
 
   onMouseDown(e: pc.MouseEvent): void {
-    if (this.completed) return;
+    // if (this.completed) return;
     console.log("LevelSelectButton.onMouseDown", this.level);
     this.setCursor("default");
     GameManager.instance.loadLevel(this.level);
   }
 
-  setCompleted(completed: boolean): void {
-    this.completed = completed;
-    // show disabled
+  setCompleted(): void {
+    console.log("LevelSelectButton.setCompleted");
+    this.completed = true;
+    this.entity.element.color = new pc.Color(0, 1, 0, 1);
   }
 }
