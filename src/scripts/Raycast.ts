@@ -9,8 +9,7 @@ export class Raycast extends ScriptTypeBase {
   private overUIElement: boolean;
 
   initialize(): void {
-    // TODO: Adjust camera zoom
-    // this.tileManager = this.getScript<TileManager>(this.entity, GameCamera.scriptName);
+    // TODO: Adjust camera zoom to fit all tiles on screen
     this.app.mouse.on(pc.EVENT_MOUSEMOVE, this.onMouseMove, this);
     this.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
     this.on("destroy", () => {

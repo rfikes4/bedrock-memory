@@ -754,12 +754,6 @@ export const waitTillInitialized = (maxWait = 5000): Promise<void> => {
 };
 
 export const initializeTweenEngine = () => {
-  // console.log(
-  //   `\n\n ~~~~ initializeTweenEngine : finished? ${finishedInit ? 'yes' : 'no'} isInit: ${
-  //     isInit ? 'yes' : 'no'
-  //   }`
-  // );
-
   if (finishedInit) return;
 
   const isInInit = isInit;

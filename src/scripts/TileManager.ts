@@ -55,7 +55,6 @@ export class Tiles extends ScriptTypeBase {
     for (let i = 0; i < this.pairs * 2; i++) {
       const tile = (this.tile.resource as pc.Template).instantiate();
       tile.name = `Tile_${i}_Face_${Math.floor(i / 2) + 1}`;
-      // tile.
       const tileScript = this.getScript<Tile>(tile, Tile.scriptName);
       // For every 2 tiles set the same face
       tileScript.setFace(Math.floor(i / 2));
@@ -99,7 +98,6 @@ export class Tiles extends ScriptTypeBase {
   }
 
   flipTile(tile: pc.Entity): void {
-    console.log("flipTile", tile.name);
     const tileScript = this.getScript<Tile>(tile, Tile.scriptName);
     if (tileScript.isFlipped || tileScript.isPaired || this.checkingPair) {
       return;
@@ -124,7 +122,7 @@ export class Tiles extends ScriptTypeBase {
       Tile.scriptName
     );
     if (tile1Script.face == tile2Script.face) {
-      console.log("Pair found!");
+      // Pair found
       this.flippedPair = [];
       this.pairedTiles.push(this.flippedPair[0]);
       tile1Script.setPaired(this.flippedPair[1]);
@@ -138,7 +136,7 @@ export class Tiles extends ScriptTypeBase {
         GameManager.instance.win();
       }
     } else {
-      console.log("Pair not found!");
+      // Pair not found
       setTimeout(() => {
         tile1Script.resetFlip();
         tile2Script.resetFlip();
@@ -148,20 +146,8 @@ export class Tiles extends ScriptTypeBase {
     }
   }
 
-  // setScore(score: number): void {
-
-  // }
-
   exit(): void {
-    // TODO: polish = animate tiles flying away
-    //   private tiles: pc.Entity[] = [];
-    // public flippedPair: pc.Entity[] = [];
-    // private pairedTiles: pc.Entity[] = [];
-    // reset flips, unpair tiles, destroy tiles
     for (let i = 0; i < this.tiles.length; i++) {
-      // const tileScript = this.getScript<Tile>(this.tiles[i], Tile.scriptName);
-      // tileScript.resetFlip();
-      // tileScript.unpair();
       this.tiles[i].destroy();
     }
     this.checkingPair = false;
@@ -170,14 +156,11 @@ export class Tiles extends ScriptTypeBase {
     this.tiles = [];
     this.score = 0;
   }
-
-  // TODO: upair/resetFlip tiles on new game
 }
 
 export class TileManager {
   static readonly instance = new TileManager();
   protected tilesScript: Tiles;
-  // protected pairs: number = 0;
 
   private constructor() {
     /**/

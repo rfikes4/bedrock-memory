@@ -24,7 +24,6 @@ export class LevelExitButton extends ScriptTypeBase {
   }
 
   onMouseDown(e: pc.MouseEvent): void {
-    console.log("LevelExitButton.onMouseDown");
     this.setCursor("default");
     GameManager.instance.exitLevel();
   }
