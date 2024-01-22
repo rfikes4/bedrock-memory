@@ -1,0 +1,9 @@
+{
+  "PLAYCANVAS_BRANCH_ID": "fb2b0bb3-9ecc-4191-9b68-004ef921b5af",
+  "PLAYCANVAS_API_KEY": "NJSOwt9eMByHdvvAYMeKLf7ok8wOFkXr",
+  "PLAYCANVAS_PROJECT_ID": 1182659,
+  "PLAYCANVAS_TARGET_DIR": ".",
+  "PLAYCANVAS_TARGET_SUBDIR": "build/scripts",
+  "PLAYCANVAS_BAD_FILE_REG": "^\\.|~$",
+  "PLAYCANVAS_BAD_FOLDER_REG": "^\\.|typings|node_modules"
+}
