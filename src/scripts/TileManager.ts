@@ -3,6 +3,7 @@ import { ScriptTypeBase } from "../types/ScriptTypeBase";
 import { attrib, playCanvasScript } from "../decorators/playCanvasScript";
 import { Tile } from "./Tile";
 import { GameManager } from "./GameManager";
+import { AudioEnum, AudioManager } from "./AudioManager";
 
 @playCanvasScript("Tiles")
 export class Tiles extends ScriptTypeBase {
@@ -130,6 +131,7 @@ export class Tiles extends ScriptTypeBase {
       tile2Script.setPaired(this.flippedPair[0]);
       this.checkingPair = false;
       this.score++;
+      AudioManager.instance.playSound(AudioEnum.AUDIO_MATCHED);
       GameManager.instance.setScore(this.score, this.pairs);
 
       if (this.pairedTiles.length == this.pairs * 2) {
@@ -142,6 +144,7 @@ export class Tiles extends ScriptTypeBase {
         tile2Script.resetFlip();
         this.flippedPair = [];
         this.checkingPair = false;
+        AudioManager.instance.playSound(AudioEnum.AUDIO_MISMATCHED);
       }, this.resetFlipTimeout);
     }
   }
@@ -176,6 +179,7 @@ export class TileManager {
 
   public flipTile(tile: pc.Entity): void {
     this.tilesScript.flipTile(tile);
+    AudioManager.instance.playSound(AudioEnum.AUDIO_TILE);
   }
 
   public exit(): void {

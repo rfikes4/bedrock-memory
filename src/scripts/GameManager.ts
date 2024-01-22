@@ -2,6 +2,7 @@ import { ScriptTypeBase } from "../types/ScriptTypeBase";
 import { playCanvasScript } from "../decorators/playCanvasScript";
 import { TileManager } from "./TileManager";
 import { UiManager } from "./UiManager";
+import { AudioEnum, AudioManager } from "./AudioManager";
 
 @playCanvasScript("Game")
 export class Game extends ScriptTypeBase {
@@ -34,17 +35,20 @@ export class GameManager {
     this.pairs = TileManager.instance.pairs;
     UiManager.instance.loadLevel(level);
     UiManager.instance.setScore(0, this.pairs);
+    AudioManager.instance.playSound(AudioEnum.AUDIO_TILE);
   }
 
   public exitLevel(): void {
     TileManager.instance.exit();
     UiManager.instance.exitLevel();
     this.currentLevel = -1;
+    AudioManager.instance.playSound(AudioEnum.AUDIO_PLAYAGAIN);
   }
 
   public win(): void {
     this.completedLevels.push(this.currentLevel);
     UiManager.instance.win(this.currentLevel);
+    AudioManager.instance.playSound(AudioEnum.AUDIO_BEATGAME);
   }
 
   public setScore(score: number, pairs: number): void {
